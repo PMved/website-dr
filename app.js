@@ -5,6 +5,18 @@
 
 const VALID_PINS = ['501402'];
 
+// Universal image fallback for GitHub (handles both root & assets/ folders)
+window.addEventListener('error', function(e) {
+  if (e.target && e.target.tagName === 'IMG') {
+    const src = e.target.getAttribute('src');
+    if (src && src.startsWith('assets/')) {
+      e.target.src = src.replace('assets/', '');
+    } else if (src && !src.startsWith('assets/') && !src.startsWith('http') && !src.startsWith('data:')) {
+      e.target.src = 'assets/' + src;
+    }
+  }
+}, true);
+
 document.addEventListener('DOMContentLoaded', () => {
   initPasscodeGate();
   initBookingModal();
