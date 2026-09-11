@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# XML Sitemap
+Sitemap: https://www.drchipdeurologist.com/sitemap.xml
