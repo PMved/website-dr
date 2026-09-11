@@ -2061,3 +2061,130 @@ button, input, select, textarea {
     font-size: 0.8rem;
   }
 }
+
+/* ================= PREVIEW ACCESS CODE LOCK SCREEN ================= */
+#previewLockOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #0b1e36;
+  background: radial-gradient(circle at center, #13335c 0%, #071526 100%);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#previewLockOverlay.unlocked {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.lock-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 28px;
+  padding: 44px 36px;
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: lockCardPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes lockCardPop {
+  from { transform: scale(0.92) translateY(15px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.lock-icon-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 1.8rem;
+  color: white;
+  box-shadow: 0 10px 20px rgba(13, 148, 136, 0.3);
+}
+
+.lock-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.lock-subtitle {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-bottom: 28px;
+}
+
+.lock-input-group {
+  margin-bottom: 20px;
+}
+
+.lock-input {
+  width: 100%;
+  max-width: 240px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  font-size: 1.4rem;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.lock-input:focus {
+  border-color: #5eead4;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 4px rgba(94, 234, 212, 0.2);
+}
+
+.lock-btn {
+  width: 100%;
+  max-width: 240px;
+  padding: 14px 20px;
+  background: #0d9488;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(13, 148, 136, 0.35);
+}
+
+.lock-btn:hover {
+  background: #0f766e;
+  transform: translateY(-1px);
+}
+
+.lock-error {
+  color: #f87171;
+  font-size: 0.85rem;
+  margin-top: 12px;
+  min-height: 20px;
+  display: none;
+}
+

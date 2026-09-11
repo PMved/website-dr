@@ -3,7 +3,10 @@
  * Interactive Engine: Booking Wizard, Symptom Triage, Reels Preview & GA4 Tracking
  */
 
+const VALID_PINS = ['501402'];
+
 document.addEventListener('DOMContentLoaded', () => {
+  initPasscodeGate();
   initBookingModal();
   initSymptomFilter();
   initFaqAccordion();
@@ -12,6 +15,57 @@ document.addEventListener('DOMContentLoaded', () => {
   initReelsViewer();
   initGA4Tracking();
 });
+
+/* ---------------- 0. Private Preview Passcode Gate ---------------- */
+function initPasscodeGate() {
+  const isUnlocked = sessionStorage.getItem('chipde_preview_unlocked') === 'true';
+  if (isUnlocked) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'previewLockOverlay';
+  overlay.innerHTML = `
+    <div class="lock-card">
+      <div class="lock-icon-badge"><i class="fa fa-lock"></i></div>
+      <h2 class="lock-title">Dr. Saurabh Chipde Practice Portal</h2>
+      <p class="lock-subtitle">Private Review Draft • Please enter your 6-digit access code to view.</p>
+      
+      <form id="lockForm" onsubmit="return false;">
+        <div class="lock-input-group">
+          <input type="password" id="lockInputPin" class="lock-input" placeholder="••••••" maxlength="10" autofocus autocomplete="off">
+        </div>
+        <button type="submit" id="lockSubmitBtn" class="lock-btn">Unlock Preview</button>
+        <div id="lockErrorMsg" class="lock-error">Incorrect passcode. Please try again.</div>
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden';
+
+  const pinInput = document.getElementById('lockInputPin');
+  const errorMsg = document.getElementById('lockErrorMsg');
+  const lockForm = document.getElementById('lockForm');
+
+  function checkPin() {
+    const val = pinInput.value.trim().toLowerCase();
+    if (VALID_PINS.includes(val)) {
+      sessionStorage.setItem('chipde_preview_unlocked', 'true');
+      overlay.classList.add('unlocked');
+      document.body.style.overflow = '';
+      setTimeout(() => overlay.remove(), 400);
+    } else {
+      errorMsg.style.display = 'block';
+      pinInput.value = '';
+      pinInput.focus();
+      pinInput.style.borderColor = '#f87171';
+    }
+  }
+
+  lockForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    checkPin();
+  });
+}
 
 /* ---------------- 1. Multi-Step Consultation Booking Wizard ---------------- */
 function initBookingModal() {
